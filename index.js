@@ -1,15 +1,25 @@
-const { json } = require("body-parser")
-var express=require("express")
-var app=express()
-var port=3000
+const express=require("express")
+const app=express()
 
-//Middleware..
-app.use(json())
+//import db file
+const db=require("./db")
 
+//initialize port no
+const port=5000
+
+// middleware for parsing data through body
+app.use(express.json())
+
+// landing page
 app.get("/",(req,res)=>{
-    console.log("Neeraj kumar")
-    res.send("Neeraj kumar")
+    res.send("Hello Neeraj!!")
 })
+
+//create routes for farmer
+app.use("/api/auth/",require("./routes/auth"))
+
+
+// check whether app is working or not
 app.listen(port,(req,res)=>{
-    console.log(`Listening at ${port}`)
+    console.log(`listening at http://localhost:${port}`)
 })
