@@ -1,0 +1,21 @@
+{
+    "type": "rabi",
+    "name": "wheat",
+    "quantity": 310,
+    "rate": 21,
+    "farmer": {
+        "fname": "Shubham",
+        "lname": "Yadav",
+        "email": "shubham8901@gmail.com",
+        "mobile": 9876543210,
+        "password": "Shubham",
+        "userType": "farmer",
+        "address": {
+            "line": "Samrudhi plot no 94, Jay Prakash Nagar, Goregaon East",
+            "district": "Mumbai Suburban",
+            "state": "Maharashtra",
+            "country": "India",
+            "pincode": 400063
+        }
+    }
+}

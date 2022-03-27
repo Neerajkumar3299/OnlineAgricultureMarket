@@ -53,6 +53,33 @@ const UserSchema=new mongoose.Schema({
     }
 })
 
-const User=mongoose.model("users",UserSchema)
-User.createIndexes()
-module.exports=User
+const CropSchema = new mongoose.Schema({
+    type:{
+        type:String,
+        required:true
+    },
+    name:{
+        type:String,
+        required:true
+    },
+    quantity:{
+        type:Number,
+        required:true
+    },
+    rate:{
+        type:mongoose.Types.Decimal128,
+        required:true
+    },
+    farmer:{
+        type:UserSchema,
+        required:true
+    },
+    date:{
+        type:Date,
+        default:Date.now
+    }
+})
+
+const Crop = mongoose.model("crops", CropSchema)
+Crop.createIndexes()
+module.exports = Crop

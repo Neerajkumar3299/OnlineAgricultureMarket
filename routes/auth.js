@@ -1,11 +1,15 @@
 const express=require("express")
 const router=express.Router()
-const userModel=require("../models/User")
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 const { findOne } = require("../models/User");
 const getuserid=require("../middleware/getuserid")
+
+const userModel=require("../models/User")
+const cropModel=require("../models/Crop")
+const tradeModel=require("../models/Trade")
+
 //initialize salt to add in password
 const saltRounds=10;
 
@@ -56,11 +60,12 @@ router.post("/createuser",
             email:req.body.email,
             mobile:req.body.mobile,
             userType:req.body.userType,
+            address:req.body.address,
             password:hashedPassword
         })
         data.save().then(()=>{
             
-            // Give response of siuccess if data has been successfully stored
+            // Give response of success if data has been successfully stored
             res.json({"status":true
         })
         }).catch(err=>{
@@ -125,6 +130,7 @@ async (req,res)=>{
 //getuserid is a middleware that decodes the token sent in header and returns fetch data with the help of which token was created
 router.post("/getuser",getuserid,async (req,res)=>{
     try{
+        console.log(req.user)
 
         // Get user id
         const id=req.user.id
@@ -140,5 +146,83 @@ router.post("/getuser",getuserid,async (req,res)=>{
     }catch(err){
         res.send(err)
     }
-}) 
+})
+
+router.post("/createcrop", (req,res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const data=new cropModel({
+        type:req.body.type,
+        name:req.body.name,
+        quantity:req.body.quantity,
+        rate:req.body.rate,
+        farmer:req.body.farmer
+    })
+
+    data.save().then(() => {
+        res.json({"status":true})
+    }).catch(err => {res.send(err)})
+})
+
+router.post("/getcrop",async (req,res)=>{
+    try{
+
+        // Get crop id
+        const id=req.body.id
+
+        // Fetch data of crop from database using id
+        const data=await cropModel.findById(_id=id)
+        if(!data){
+            res.send({error:"No data found"})
+        }
+        else{
+            res.send(data)
+        }
+    }catch(err){
+        res.send(err)
+    }
+})
+
+
+router.post("/trade", (req,res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const data=new tradeModel({
+        quantity:req.body.quantity,
+        amount:req.body.amount,
+        trader:req.body.trader,
+        crop:req.body.crop
+    })
+
+    data.save().then(() => {
+        res.json({"status":true})
+    }).catch(err => {res.send(err)})
+})
+
+router.post("/gettrade",async (req,res)=>{
+    try{
+
+        // Get trade id
+        const id=req.body.id
+
+        // Fetch data of trade from database using id
+        const data=await tradeModel.findById(_id=id)
+        if(!data){
+            res.send({error:"No data found"})
+        }
+        else{
+            res.send(data)
+        }
+    }catch(err){
+        res.send(err)
+    }
+})
+
+
 module.exports=router

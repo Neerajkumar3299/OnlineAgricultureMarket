@@ -1,0 +1,15 @@
+{
+    "fname": "Neeraj",
+    "lname": "Yadav",
+    "email": "neeraj@gmail.com",
+    "mobile": 9876543210,
+    "password": "Shubham",
+    "userType": "trader",
+    "address": {
+        "line": "Thakur Village, Kandivali East",
+        "district": "Mumbai Suburban",
+        "state": "Maharashtra",
+        "country": "India",
+        "pincode": 400101
+    }
+}
