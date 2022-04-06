@@ -18,6 +18,8 @@ app.get("/",(req,res)=>{
 //create routes for farmer
 app.use("/api/auth/",require("./routes/auth"))
 
+// create route for 
+
 
 // check whether app is working or not
 app.listen(port,(req,res)=>{
