@@ -1,58 +1,58 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose")
 
-const UserSchema=new mongoose.Schema({
-    fname:{
-        type:String,
-        required:true
+const UserSchema = new mongoose.Schema({
+    fname: {
+        type: String,
+        required: true
     },
-    lname:{
-        type:String,
-        required:true
+    lname: {
+        type: String,
+        required: true
     },
-    email:{
-        type:String,
-        unique:true
+    email: {
+        type: String,
+        unique: true
     },
-    mobile:{
-        type:Number
+    mobile: {
+        type: Number
     },
-    password:{
-        type:String,
-        required:true
+    password: {
+        type: String,
+        required: true
     },
-    userType:{
-        type:String,
+    userType: {
+        type: String,
     },
-    address:{
-        type:{
-            line:{
+    address: {
+        type: {
+            street_address: {
                 type: String,
                 required: true
             },
-            district:{
+            district: {
                 type: String,
                 required: true
             },
-            state:{
+            state: {
                 type: String,
                 required: true
             },
-            country:{
+            country: {
                 type: String,
                 required: true
             },
-            pincode:{
+            pincode: {
                 type: Number,
                 required: true
             }
         }
     },
-    date:{
-        type:Date,
-        default:Date.now
+    date: {
+        type: Date,
+        default: Date.now
     }
 })
 
-const User=mongoose.model("users",UserSchema)
+const User = mongoose.model("users", UserSchema)
 User.createIndexes()
-module.exports=User
+module.exports = { User, UserSchema }
