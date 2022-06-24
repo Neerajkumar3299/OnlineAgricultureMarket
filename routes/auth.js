@@ -1,4 +1,5 @@
 const express = require("express")
+const multer = require("multer")
 const router = express.Router()
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
@@ -9,6 +10,16 @@ const getuserid = require("../middleware/getuserid")
 const { User } = require("../models/User")
 const { Crop } = require("../models/Crop")
 const { Trade } = require("../models/Trade")
+
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+});
+var upload = multer({ storage: storage }).single('myfile');
 
 //initialize salt to add in password
 const saltRounds = 10;
@@ -265,5 +276,44 @@ router.post("/gettrade", async (req, res) => {
     }
 })
 
+router.post("/apply-loan", async (req, res) => {
+    try {
+        upload(req, res, function (err) {
+            if (err) {
+                return res.end("Error uploading file.");
+            }
+            res.redirect('http://localhost:3000/product/documents-uploaded');
+        });
+    } catch (err) {
+        res.send(err)
+    }
+})
+
+router.post("/personal-info", async (req, res) => {
+    try {
+        res.redirect('http://localhost:3000/product/personal-info-saved')
+
+    } catch (err) {
+        res.send(err)
+    }
+})
+
+router.post("/sell-crop", async (req, res) => {
+    try {
+        res.redirect('http://localhost:3000/market-place/details-saved')
+
+    } catch (err) {
+        res.send(err)
+    }
+})
+
+router.post("/notification-preference", async (req, res) => {
+    try {
+        res.redirect('http://localhost:3000/product/notification-preferences-saved')
+
+    } catch (err) {
+        res.send(err)
+    }
+})
 
 module.exports = router
